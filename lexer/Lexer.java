@@ -41,9 +41,7 @@ public class Lexer {
             case ';':
                 return new Token(TokenType.SEMICOLON, ch);
             case ':':
-                Pattern pattern = Pattern.compile("=");
-                Matcher matcher = pattern.matcher(Character.toString(peekChar()));
-                if (matcher.matches()) {
+                if (Character.toString(peekChar()).compareTo("=") == 0){
                     readChar();
                     return new Token(TokenType.ASSINE, ":=");
                 } else {
@@ -95,17 +93,17 @@ public class Lexer {
 
     String readNumber() {
         int pos = this.position;
-        while (Character.isDigit(this.ch)) {
+        while (Character.isDigit(peekChar())) {
             this.readChar();
         }
-        return input.substring(pos, this.position);
+        return input.substring(pos, this.readPosition);
     }
 
     String readIdnetifier() {
         int pos = this.position;
-        while ('a'<= ch && ch <= 'z') {
+        while ('a'<= peekChar() && peekChar() <= 'z') {
             this.readChar();
         }
-        return input.substring(pos, this.position);
+        return input.substring(pos, this.readPosition);
     }
 }
