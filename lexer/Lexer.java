@@ -19,13 +19,12 @@ public class Lexer {
         this.input = input;
     }
 
-    public Token nexToken()  {
+    public Token nexToken() {
         readChar();
         skipWhiteSpaces();
         switch (this.ch) {
             case '{':
-                skipCommit();
-                return nexToken();
+
             case '(':
                 return new Token(TokenType.LPAREN, ch);
             case ')':
@@ -35,16 +34,16 @@ public class Lexer {
             case '-':
                 return new Token(TokenType.MINUS, ch);
             case '<':
-                if (Character.toString(peekChar()).compareTo("=") == 0) {
-                    readChar();
-                    return new Token(TokenType.LTorEQ, "<=");
-                }
+                // if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    // readChar();
+                    // return new Token(TokenType.LTorEQ, "<=");
+                // }
                 return new Token(TokenType.LT, ch);
             case '>':
-                if (Character.toString(peekChar()).compareTo("=") == 0) {
-                    readChar();
-                    return new Token(TokenType.GTorEQ, "<=");
-                }
+                // if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    // readChar();
+                    // return new Token(TokenType.GTorEQ, "<=");
+                // }
                 return new Token(TokenType.GT, ch);
             case '=':
                 // add equal operator??
@@ -71,9 +70,7 @@ public class Lexer {
                     String indntfier = this.readIdnetifier();
                     tok = new Token(Token.lookup(indntfier), indntfier);
                 }
-                System.out.println(Character.toString(input.charAt(position-1)));
-                // readChar();
-                return new Token(TokenType.SYNTAX_ERROR,"Err"+ch);
+                return tok;
         }
     }
 
@@ -121,13 +118,9 @@ public class Lexer {
     }
 
     void skipCommit() {
-        System.out.println("comment"+ch);
-        while (Character.toString(peekChar()).compareTo("}") != 0) {
-            readChar();
-            if (this.readPosition >= this.input.length()) {
-                return;
-            }
-        }
-        readChar();
+        return;
+        // while (Character.toString(peekChar()).compareTo("}") !=0 ) {
+        // readChar();
+        // if(this.readPosition)
     }
 }
