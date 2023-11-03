@@ -24,26 +24,30 @@ public class Lexer {
         skipWhiteSpaces();
         switch (this.ch) {
             case '{':
-
+                skipComment();
             case '(':
                 return new Token(TokenType.LPAREN, ch);
             case ')':
                 return new Token(TokenType.RPAREN, ch);
+            case '*':
+                return new Token(TokenType.MULT, ch);
+            case '/':
+                return new Token(TokenType.DIV, ch);
             case '+':
                 return new Token(TokenType.PLUS, ch);
             case '-':
                 return new Token(TokenType.MINUS, ch);
             case '<':
-                // if (Character.toString(peekChar()).compareTo("=") == 0) {
-                    // readChar();
-                    // return new Token(TokenType.LTorEQ, "<=");
-                // }
+                if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    readChar();
+                    return new Token(TokenType.LTorEQ, "<=");
+                }
                 return new Token(TokenType.LT, ch);
             case '>':
-                // if (Character.toString(peekChar()).compareTo("=") == 0) {
-                    // readChar();
-                    // return new Token(TokenType.GTorEQ, "<=");
-                // }
+                if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    readChar();
+                    return new Token(TokenType.GTorEQ, "<=");
+                }
                 return new Token(TokenType.GT, ch);
             case '=':
                 // add equal operator??
@@ -62,15 +66,16 @@ public class Lexer {
             case 0:
                 return new Token(TokenType.EOF, '0');
             default:
-                Token tok = new Token();
                 if (Character.isDigit(ch)) {
                     String num = readNumber();
-                    tok = new Token(TokenType.NUMBER, num);
+                    Token tok = new Token(TokenType.NUMBER, num);
+                    return tok;
                 } else if ('a' <= ch && ch <= 'z') {
                     String indntfier = this.readIdnetifier();
-                    tok = new Token(Token.lookup(indntfier), indntfier);
+                    Token tok = new Token(Token.lookup(indntfier), indntfier);
+                    return tok;
                 }
-                return tok;
+                return new Token(TokenType.SYNTAX_ERROR, ch);
         }
     }
 
@@ -117,10 +122,13 @@ public class Lexer {
         return input.substring(pos, this.readPosition);
     }
 
-    void skipCommit() {
-        return;
-        // while (Character.toString(peekChar()).compareTo("}") !=0 ) {
-        // readChar();
-        // if(this.readPosition)
+    void skipComment() {
+        while (Character.toString(peekChar()).compareTo("}") != 0) {
+            readChar();
+            if (this.readPosition >= input.length()) {
+                return;
+            }
+        }
+        readChar();
     }
 }

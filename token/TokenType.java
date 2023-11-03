@@ -19,14 +19,15 @@ public enum TokenType {
 
     // delimiters
     SEMICOLON,
-    LBRACE,
-    RBRACE,
+    // LBRACE,
+    // RBRACE,
     LPAREN,
     RPAREN,
 
     // operators
     PLUS,
     MINUS,
+    MULT,
     ASTERISK,
     DIV,
     LT,
