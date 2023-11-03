@@ -25,6 +25,7 @@ public class Lexer {
         switch (this.ch) {
             case '{':
                 skipComment();
+                return nexToken();
             case '(':
                 return new Token(TokenType.LPAREN, ch);
             case ')':
