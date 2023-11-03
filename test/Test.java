@@ -10,8 +10,8 @@ public class Test {
         Lexer l = new Lexer(input);
         Token t = l.nexToken();
         while (t.type != TokenType.EOF) {
-            System.out.println("type: " + t.type + " literal: " + t.literal);
-            t = l.nexToken();
+                System.out.println("type: " + t.type + " literal: " + t.literal);
+                t = l.nexToken();
         }
     }
 

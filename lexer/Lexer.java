@@ -19,10 +19,13 @@ public class Lexer {
         this.input = input;
     }
 
-    public Token nexToken() {
+    public Token nexToken()  {
         readChar();
         skipWhiteSpaces();
         switch (this.ch) {
+            case '{':
+                skipCommit();
+                return nexToken();
             case '(':
                 return new Token(TokenType.LPAREN, ch);
             case ')':
@@ -32,8 +35,16 @@ public class Lexer {
             case '-':
                 return new Token(TokenType.MINUS, ch);
             case '<':
+                if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    readChar();
+                    return new Token(TokenType.LTorEQ, "<=");
+                }
                 return new Token(TokenType.LT, ch);
             case '>':
+                if (Character.toString(peekChar()).compareTo("=") == 0) {
+                    readChar();
+                    return new Token(TokenType.GTorEQ, "<=");
+                }
                 return new Token(TokenType.GT, ch);
             case '=':
                 // add equal operator??
@@ -41,7 +52,7 @@ public class Lexer {
             case ';':
                 return new Token(TokenType.SEMICOLON, ch);
             case ':':
-                if (Character.toString(peekChar()).compareTo("=") == 0){
+                if (Character.toString(peekChar()).compareTo("=") == 0) {
                     readChar();
                     return new Token(TokenType.ASSINE, ":=");
                 } else {
@@ -53,14 +64,16 @@ public class Lexer {
                 return new Token(TokenType.EOF, '0');
             default:
                 Token tok = new Token();
-                 if (Character.isDigit(ch)) {
+                if (Character.isDigit(ch)) {
                     String num = readNumber();
                     tok = new Token(TokenType.NUMBER, num);
                 } else if ('a' <= ch && ch <= 'z') {
                     String indntfier = this.readIdnetifier();
                     tok = new Token(Token.lookup(indntfier), indntfier);
                 }
-                return tok;
+                System.out.println(Character.toString(input.charAt(position-1)));
+                // readChar();
+                return new Token(TokenType.SYNTAX_ERROR,"Err"+ch);
         }
     }
 
@@ -101,9 +114,20 @@ public class Lexer {
 
     String readIdnetifier() {
         int pos = this.position;
-        while ('a'<= peekChar() && peekChar() <= 'z') {
+        while ('a' <= peekChar() && peekChar() <= 'z') {
             this.readChar();
         }
         return input.substring(pos, this.readPosition);
+    }
+
+    void skipCommit() {
+        System.out.println("comment"+ch);
+        while (Character.toString(peekChar()).compareTo("}") != 0) {
+            readChar();
+            if (this.readPosition >= this.input.length()) {
+                return;
+            }
+        }
+        readChar();
     }
 }

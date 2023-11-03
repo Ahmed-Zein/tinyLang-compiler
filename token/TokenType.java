@@ -28,9 +28,11 @@ public enum TokenType {
     PLUS,
     MINUS,
     ASTERISK,
-    SLASH,
+    DIV,
     LT,
     GT,
+    GTorEQ,
+    LTorEQ,
     EQ,
     ASSINE,
 }
