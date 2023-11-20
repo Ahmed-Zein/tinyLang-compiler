@@ -27,9 +27,9 @@ public class Lexer {
                 skipComment();
                 return nexToken();
             case '(':
-                return new Token(TokenType.LPAREN, ch);
+                return new Token(TokenType.OPENBRACKET, ch);
             case ')':
-                return new Token(TokenType.RPAREN, ch);
+                return new Token(TokenType.CLOSEDBRACKET, ch);
             case '*':
                 return new Token(TokenType.MULT, ch);
             case '/':
@@ -47,7 +47,7 @@ public class Lexer {
             case '>':
                 if (Character.toString(peekChar()).compareTo("=") == 0) {
                     readChar();
-                    return new Token(TokenType.GTorEQ, "<=");
+                    return new Token(TokenType.GTorEQ, ">=");
                 }
                 return new Token(TokenType.GT, ch);
             case '=':
@@ -126,6 +126,9 @@ public class Lexer {
     void skipComment() {
         while (Character.toString(peekChar()).compareTo("}") != 0) {
             readChar();
+            if (Character.toString(this.ch).compareTo("{") == 0) {
+                skipComment();
+            }
             if (this.readPosition >= input.length()) {
                 return;
             }

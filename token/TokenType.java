@@ -4,7 +4,7 @@ public enum TokenType {
     EOF,
     SYNTAX_ERROR,
     // identifire + literal
-    IDENT,
+    IDENTIFIER,
     NUMBER,
 
     // keywords
@@ -19,16 +19,13 @@ public enum TokenType {
 
     // delimiters
     SEMICOLON,
-    // LBRACE,
-    // RBRACE,
-    LPAREN,
-    RPAREN,
+    OPENBRACKET,
+    CLOSEDBRACKET,
 
     // operators
     PLUS,
     MINUS,
     MULT,
-    ASTERISK,
     DIV,
     LT,
     GT,

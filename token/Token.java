@@ -21,7 +21,7 @@ public class Token {
         try {
             tt = TokenType.valueOf(literal.toUpperCase());
         } catch (IllegalArgumentException e) {
-            tt = TokenType.IDENT;
+            tt = TokenType.IDENTIFIER;
         }
         return tt;
     }
