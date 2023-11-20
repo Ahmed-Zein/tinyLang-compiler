@@ -1,0 +1,9 @@
+x:= 55; {comment}
+if(x <= 55) then
+	x=34
+else 
+	x= 44 
+end
+unitl#
+read
+write /*-+09090
