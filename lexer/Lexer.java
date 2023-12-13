@@ -1,8 +1,5 @@
 package lexer;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import token.Token;
 import token.TokenType;
 
@@ -102,7 +99,6 @@ public class Lexer {
 
     char peekChar() {
         if (readPosition >= input.length()) {
-            ch = 0;
             return 0;
         }
         return input.charAt(readPosition);
