@@ -9,6 +9,7 @@ import repl.Reple;
 
 class Main {
     public static void main(String[] args) {
+
         System.out.println("Terminal(1) or textFile(2)?");
         Scanner input = new Scanner(System.in);
         String hh = input.nextLine();
@@ -19,7 +20,17 @@ class Main {
             System.out.println("Terminal mode started");
             Reple.repl();
         }
-        input.close();
+
+        while (true) {
+            System.out.println();
+            Scanner io = new Scanner(System.in);
+            io.nextLine();
+        }
+        // input.close();
+        // hh = input.nextLine();
+        // Remove the input.close() statement
+
+        // Close the Scanner at the end of the program
     }
 
     static void scanFile() {
@@ -41,7 +52,7 @@ class Main {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            input.close();
+            // input.close();
         }
     }
 }

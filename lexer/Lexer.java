@@ -81,9 +81,10 @@ public class Lexer {
     }
 
     void skipWhiteSpaces() {
-        Pattern pattern = Pattern.compile(" |\t|\n|\r");
-        Matcher matcher = pattern.matcher(Character.toString(ch));
-        if (matcher.matches()) {
+        // Pattern pattern = Pattern.compile(" |\t|\n|\r");
+        // Matcher matcher = pattern.matcher(Character.toString(ch));
+        // if (matcher.matches()) {
+        if (this.ch == ' ' || this.ch == '\t' || this.ch == '\r' || this.ch == '\n') {
             this.readChar();
             skipWhiteSpaces();
         }
