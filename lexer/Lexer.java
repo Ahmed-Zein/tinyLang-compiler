@@ -28,7 +28,7 @@ public class Lexer {
             case ')':
                 return new Token(TokenType.CLOSEDBRACKET, ch);
             case '*':
-                return new Token(TokenType.MULT, ch);
+                return new Token(TokenType.MULOP, ch);
             case '/':
                 return new Token(TokenType.DIV, ch);
             case '+':
@@ -117,6 +117,7 @@ public class Lexer {
         while ('a' <= peekChar() && peekChar() <= 'z') {
             this.readChar();
         }
+        // TODO: make sure that it is a valid identifer
         return input.substring(pos, this.readPosition);
     }
 

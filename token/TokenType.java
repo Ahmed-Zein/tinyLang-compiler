@@ -25,7 +25,7 @@ public enum TokenType {
     // operators
     PLUS,
     MINUS,
-    MULT,
+    MULOP,
     DIV,
     LT,
     GT,

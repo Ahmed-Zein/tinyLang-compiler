@@ -13,24 +13,13 @@ class Main {
         System.out.println("Terminal(1) or textFile(2)?");
         Scanner input = new Scanner(System.in);
         String hh = input.nextLine();
-
         if (hh.compareTo("2") == 0) {
             scanFile();
         } else {
             System.out.println("Terminal mode started");
             Reple.repl();
         }
-
-        while (true) {
-            System.out.println();
-            Scanner io = new Scanner(System.in);
-            io.nextLine();
-        }
-        // input.close();
-        // hh = input.nextLine();
-        // Remove the input.close() statement
-
-        // Close the Scanner at the end of the program
+        input.close();
     }
 
     static void scanFile() {
