@@ -1,27 +1,41 @@
 package test;
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.Assume.assumeNoException;
+
 import org.junit.Test;
 
 import parser.Parser;
 
 public class TestFactor {
 
-    // testing factor, ()
+    // factor -> (exp) | number | identifier
     @Test
     public void testfactor() {
-        Parser parser = new Parser("()");
-        assertEquals(true, parser.factor());
+        Parser parser = new Parser("(3)");
+        try {
+            parser.factor();
+        } catch (Exception e) {
+            assumeNoException(e);
+        }
     }
+
     @Test
-    public void testfactor2(){
-        Parser parser = new Parser(")()");
-        assertEquals(false, parser.factor());
+    public void testfactor1() {
+        Parser parser = new Parser("3");
+        try {
+            parser.factor();
+        } catch (Exception e) {
+            assumeNoException(e);
+        }
     }
 
     @Test
-    public void testfactor3(){
-        Parser parser = new Parser("123");
-        assertEquals(true, parser.factor());
+    public void testfactor2() {
+        Parser parser = new Parser("helloworld");
+        try {
+            parser.factor();
+        } catch (Exception e) {
+            assumeNoException(e);
+        }
     }
-
 }

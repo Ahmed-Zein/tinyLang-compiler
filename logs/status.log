@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-12-15T02:02:42</date>
+  <millis>1702598562145</millis>
+  <sequence>0</sequence>
+  <logger>Logging</logger>
+  <level>INFO</level>
+  <class>parser.Parser</class>
+  <method>match</method>
+  <thread>1</thread>
+  <message>matche: OPENBRACKET</message>
+</record>
+<record>
+  <date>2023-12-15T02:02:42</date>
+  <millis>1702598562167</millis>
+  <sequence>1</sequence>
+  <logger>Logging</logger>
+  <level>INFO</level>
+  <class>parser.Parser</class>
+  <method>match</method>
+  <thread>1</thread>
+  <message>matche: NUMBER</message>
+</record>
+<record>
+  <date>2023-12-15T02:02:42</date>
+  <millis>1702598562167</millis>
+  <sequence>2</sequence>
+  <logger>Logging</logger>
+  <level>INFO</level>
+  <class>parser.Parser</class>
+  <method>match</method>
+  <thread>1</thread>
+  <message>matche: CLOSEDBRACKET</message>
+</record>
+</log>

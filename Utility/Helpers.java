@@ -1,11 +1,11 @@
-package Utils;
+package Utility;
 
 import parser.TreeNode;
 import token.Token;
 
-public class Utils {
+public class Helpers {
 
-    static void drawTree(TreeNode root, int idnt) {
+    public static void drawTree(TreeNode root, int idnt) {
         System.out.print(root.name);
         for (TreeNode tNode : root.children) {
             if (idnt > 0) {
@@ -23,8 +23,10 @@ public class Utils {
         }
     }
 
-    static void displayToken(Token tok) {
-        System.out.println("tokenLiteral " + tok.literal + " tokenType: " + tok.type);
+    public static String displayToken(Token tok) {
+        String displayTxt = "tokenLiteral " + tok.literal + " tokenType: " + tok.type;
+        System.out.println(displayTxt);
+        return displayTxt;
     }
 
     static void print(String t) {

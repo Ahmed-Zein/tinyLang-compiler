@@ -29,7 +29,7 @@
 - [ ] writeStmt,
 - [ ] readStmt,
 - [ ] program,
-- [ ] factor,
+- [x] factor,
 - [ ] ifStmt,
 - [ ] addop,
 - [ ] mulop,
