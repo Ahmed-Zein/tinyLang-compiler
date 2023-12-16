@@ -3,7 +3,6 @@ package parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Utility.Helpers;
 import lexer.Lexer;
 import token.Token;
 import token.TokenType;
@@ -44,27 +43,24 @@ public class Parser {
         return false;
     }
 
+    public boolean ifStmt() throws Exception {
+        // - if-stmt -> if exp then stmt-sequence [ else stmt-sequence ] end
+        match(TokenType.IF);
+        exp();
+        match(TokenType.THEN);
+        statement();
+        if (this.tok.type == TokenType.ELSE) {
+            match(TokenType.ELSE);
+        }
+        match(TokenType.END);
+        return false;
+    }
+
     public boolean exp() throws Exception {
         // - exp -> simple-exp [ comparison-op simple-exp ]
         simpleExp();
         while (comparisonOP()) {
             simpleExp();
-        }
-        return false;
-    }
-
-    public boolean comparisonOP() throws Exception {
-        ArrayList<TokenType> allowedToken = new ArrayList<>(Arrays.asList(
-                TokenType.GT,
-                TokenType.GTorEQ,
-                TokenType.LT,
-                TokenType.LTorEQ,
-                TokenType.ASSINE));
-        for (TokenType tt : allowedToken) {
-            if (tt == this.tok.type) {
-                match(tt);
-                return true;
-            }
         }
         return false;
     }
@@ -80,23 +76,10 @@ public class Parser {
 
     public boolean term() throws Exception {
         factor();
-        while (this.tok.type == TokenType.MULOP) {
-            match(TokenType.MULOP);
+        while (this.tok.type == TokenType.MULOP || this.tok.type == TokenType.DIV) {
+            match(this.tok.type);
             factor();
         }
-        return false;
-    }
-
-    public boolean ifStmt() throws Exception {
-        // - if-stmt -> if exp then stmt-sequence [ else stmt-sequence ] end
-        match(TokenType.IF);
-        exp();
-        match(TokenType.THEN);
-        statement();
-        if (this.tok.type == TokenType.ELSE) {
-            match(TokenType.ELSE);
-        }
-        match(TokenType.END);
         return false;
     }
 
@@ -118,13 +101,54 @@ public class Parser {
         }
     }
 
+    public boolean comparisonOP() throws Exception {
+        ArrayList<TokenType> allowedToken = new ArrayList<>(Arrays.asList(
+                TokenType.GT,
+                TokenType.GTorEQ,
+                TokenType.LT,
+                TokenType.LTorEQ,
+                TokenType.ASSINE));
+        for (TokenType tt : allowedToken) {
+            if (tt == this.tok.type) {
+                match(tt);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean mulop() throws Exception {
+        switch (this.tok.type) {
+            case MULOP:
+                return match(TokenType.MULOP);
+            case DIV:
+                return match(TokenType.DIV);
+
+            default:
+                return false;
+        }
+    }
+
+    public boolean addop() throws Exception {
+        switch (this.tok.type) {
+            case PLUS:
+                return match(TokenType.PLUS);
+            case MINUS:
+                return match(TokenType.MINUS);
+
+            default:
+                return false;
+        }
+    }
+
     private boolean match(TokenType type) throws Exception {
         if (this.tok.type == type) {
-            System.out.println("INFO: match: " + type.toString());
+            // +type.toString()
+            System.out.println("INFO: match: " + tok.toString());
             getToken();
             return true;
         }
-        throw (new Exception("error occured expected: " + type.toString() + Helpers.displayToken(tok)));
+        throw (new Exception("error occured expected: " + type.toString() + tok.toString()));
     }
 
     private void getToken() {

@@ -21,20 +21,24 @@
 ## TBD:
 
 - [ ] stmtSequence
-- [ ] comparisonOp,
+- [x] comparisonOp,
 - [ ] repeatStmt,
 - [ ] assignStmt,
-- [ ] simpleExp,
+- [x] simpleExp,
 - [ ] statement,
 - [ ] writeStmt,
 - [ ] readStmt,
 - [ ] program,
 - [x] factor,
 - [ ] ifStmt,
-- [ ] addop,
-- [ ] mulop,
-- [ ] term,
-- [ ] exp,
+- [x] addop,
+- [x] mulop,
+- [x] term,
+- [x] exp,
+
+## ERRs
+
+FIXME: missing producution rule causes no erroe (i.e) exp: {>}, this should not be valid
 
 ## Extra
 

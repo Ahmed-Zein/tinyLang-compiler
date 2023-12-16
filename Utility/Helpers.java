@@ -1,7 +1,6 @@
 package Utility;
 
 import parser.TreeNode;
-import token.Token;
 
 public class Helpers {
 
@@ -21,19 +20,5 @@ public class Helpers {
             }
             drawTree(tNode, idnt + 1);
         }
-    }
-
-    public static String displayToken(Token tok) {
-        String displayTxt = "tokenLiteral " + tok.literal + " tokenType: " + tok.type;
-        System.out.println(displayTxt);
-        return displayTxt;
-    }
-
-    static void print(String t) {
-        System.out.print(t);
-    }
-
-    static void println(String t) {
-        System.out.println(t);
     }
 }

@@ -11,6 +11,7 @@ public class Token {
         this.literal = literal;
         this.type = type;
     }
+
     public Token(TokenType type, char literal) {
         this.literal = String.valueOf(literal);
         this.type = type;
@@ -24,5 +25,10 @@ public class Token {
             tt = TokenType.IDENTIFIER;
         }
         return tt;
+    }
+
+    @Override
+    public String toString() {
+        return "tokenLiteral " + this.literal + " tokenType: " + this.type;
     }
 }
