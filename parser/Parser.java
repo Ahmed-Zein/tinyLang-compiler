@@ -32,11 +32,11 @@ public class Parser {
             case REPEAT:
                 break;
             case ASSINE:
-                break;
+                return assignStmt();
             case READ:
-                break;
+                return readStmt();
             case WRITE:
-                break;
+                return writeStmt();
             default:
                 return false;
         }
@@ -56,12 +56,21 @@ public class Parser {
         return false;
     }
 
+    public boolean assignStmt() throws Exception {
+        // - assign-stmt -> **identifier :=** exp
+        match(TokenType.IDENTIFIER);
+        match(TokenType.ASSINE);
+        return exp();
+    }
+
     public boolean readStmt() throws Exception {
+        // - read-stmt -> **read identifier**
         match(TokenType.READ);
         return match(TokenType.IDENTIFIER);
     }
 
     public boolean writeStmt() throws Exception {
+        // - write-stmt -> **write** exp
         match(TokenType.WRITE);
         return exp();
     }
@@ -76,6 +85,7 @@ public class Parser {
     }
 
     public boolean simpleExp() throws Exception {
+        // - simple-exp -> term { addop term }
         term();
         while (this.tok.type == TokenType.PLUS || this.tok.type == TokenType.MINUS) {
             match(this.tok.type);
@@ -85,6 +95,7 @@ public class Parser {
     }
 
     public boolean term() throws Exception {
+        // - term -> factor { mulop factor }
         factor();
         while (this.tok.type == TokenType.MULOP || this.tok.type == TokenType.DIV) {
             match(this.tok.type);
@@ -100,14 +111,12 @@ public class Parser {
                 match(TokenType.OPENBRACKET);
                 exp();
                 return match(TokenType.CLOSEDBRACKET);
-            // break;
             case NUMBER:
                 return match(TokenType.NUMBER);
             case IDENTIFIER:
                 return match(TokenType.IDENTIFIER);
             default:
                 return false;
-            // break;
         }
     }
 

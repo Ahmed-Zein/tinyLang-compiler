@@ -23,7 +23,7 @@
 - [ ] stmtSequence
 - [x] comparisonOp,
 - [ ] repeatStmt,
-- [ ] assignStmt,
+- [x] assignStmt,
 - [x] simpleExp,
 - [ ] statement,
 - [x] writeStmt,
