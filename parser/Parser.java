@@ -56,6 +56,16 @@ public class Parser {
         return false;
     }
 
+    public boolean readStmt() throws Exception {
+        match(TokenType.READ);
+        return match(TokenType.IDENTIFIER);
+    }
+
+    public boolean writeStmt() throws Exception {
+        match(TokenType.WRITE);
+        return exp();
+    }
+
     public boolean exp() throws Exception {
         // - exp -> simple-exp [ comparison-op simple-exp ]
         simpleExp();
@@ -148,7 +158,7 @@ public class Parser {
             getToken();
             return true;
         }
-        throw (new Exception("error occured expected: " + type.toString() + tok.toString()));
+        throw (new Exception("error occured expected: " + type.toString() + " ,got: " + tok.toString()));
     }
 
     private void getToken() {
