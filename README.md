@@ -20,17 +20,17 @@
 
 ## TBD:
 
-- [ ] stmtSequence
+- [x] stmtSequence
 - [x] comparisonOp,
-- [ ] repeatStmt,
+- [x] repeatStmt,
 - [x] assignStmt,
 - [x] simpleExp,
-- [ ] statement,
+- [x] statement,
 - [x] writeStmt,
 - [x] readStmt,
-- [ ] program,
+- [x] program,
 - [x] factor,
-- [ ] ifStmt,
+- [x] ifStmt,
 - [x] addop,
 - [x] mulop,
 - [x] term,

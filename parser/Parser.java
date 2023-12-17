@@ -16,31 +16,54 @@ public class Parser {
         tok = lexer.nexToken();
     }
 
-    public void parse() {
-        tok = lexer.nexToken();
+    public void parse()throws Exception {
+        program();
     }
 
-    public boolean statement() {
-        return false;
+    public boolean program() throws Exception {
+        // - program -> stmt-sequence
+        stmtSequence();
+        return match(TokenType.EOF);
     }
 
     public boolean stmtSequence() throws Exception {
+        // - stmt-sequence -> statement { ; statement }
+        statement();
+        while (this.tok.type == TokenType.SEMICOLON) {
+            match(TokenType.SEMICOLON);
+            statement();
+        }
+        return true;
+    }
+
+    public boolean statement() throws Exception {
+        // - statement -> stmt-sequence | if-stmt | repeat-stmt | assign-stmt |
+        // read-stmt | write-stmt
         switch (this.tok.type) {
             case IF:
-                ifStmt();
-                break;
+                return ifStmt();
             case REPEAT:
-                break;
-            case ASSINE:
+                return repeatStmt();
+            case IDENTIFIER:
                 return assignStmt();
             case READ:
                 return readStmt();
             case WRITE:
                 return writeStmt();
+            case EOF:
+                return true;
             default:
-                return false;
+                throw new Exception(
+                        "ERROR: statement expected: " + " ,got: " + this.tok.toString());
         }
-        return false;
+    }
+
+    public boolean repeatStmt() throws Exception {
+        // - repeat-stmt -> **repeat** stmt-sequence **until** exp}
+        match(TokenType.REPEAT);
+        stmtSequence();
+        match(TokenType.UNTIL);
+        return exp();
     }
 
     public boolean ifStmt() throws Exception {
@@ -48,10 +71,12 @@ public class Parser {
         match(TokenType.IF);
         exp();
         match(TokenType.THEN);
-        statement();
+        stmtSequence();
         if (this.tok.type == TokenType.ELSE) {
             match(TokenType.ELSE);
+            stmtSequence();
         }
+
         match(TokenType.END);
         return false;
     }
