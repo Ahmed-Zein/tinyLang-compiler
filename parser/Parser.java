@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import lexer.Lexer;
+import parser.tree.NodeType;
+import parser.tree.NonTerminalNode;
+import parser.tree.TerminalNode;
 import token.Token;
 import token.TokenType;
 
@@ -16,27 +19,31 @@ public class Parser {
         tok = lexer.nexToken();
     }
 
-    public void parse()throws Exception {
-        program();
+    public NonTerminalNode parse() throws Exception {
+        return program();
     }
 
-    public boolean program() throws Exception {
+    public NonTerminalNode program() throws Exception {
         // - program -> stmt-sequence
-        stmtSequence();
-        return match(TokenType.EOF);
+        NonTerminalNode node = new NonTerminalNode(NodeType.program);
+        node.addChild(stmtSequence());
+        match(TokenType.EOF);
+        return node;
     }
 
-    public boolean stmtSequence() throws Exception {
+    public NonTerminalNode stmtSequence() throws Exception {
         // - stmt-sequence -> statement { ; statement }
-        statement();
+        NonTerminalNode node = new NonTerminalNode(NodeType.stmtSequence);
+        node.addChild(statement());
         while (this.tok.type == TokenType.SEMICOLON) {
+            node.addChild(new TerminalNode(this.tok));
             match(TokenType.SEMICOLON);
-            statement();
+            node.addChild(statement());
         }
-        return true;
+        return node;
     }
 
-    public boolean statement() throws Exception {
+    public NonTerminalNode statement() throws Exception {
         // - statement -> stmt-sequence | if-stmt | repeat-stmt | assign-stmt |
         // read-stmt | write-stmt
         switch (this.tok.type) {
@@ -51,137 +58,208 @@ public class Parser {
             case WRITE:
                 return writeStmt();
             case EOF:
-                return true;
+                NonTerminalNode eNode = new NonTerminalNode(NodeType.eof);
+                eNode.addChild(new TerminalNode(this.tok));
+                return eNode;
             default:
                 throw new Exception(
-                        "ERROR: statement expected: " + " ,got: " + this.tok.toString());
+                        "ERROR: undefined statement" + " ,got: " + this.tok.toString());
         }
     }
 
-    public boolean repeatStmt() throws Exception {
+    public NonTerminalNode repeatStmt() throws Exception {
         // - repeat-stmt -> **repeat** stmt-sequence **until** exp}
+        NonTerminalNode node = new NonTerminalNode(NodeType.repeatStmt);
+
+        TerminalNode repeatNode = new TerminalNode(this.tok);
         match(TokenType.REPEAT);
-        stmtSequence();
+        node.addChild(repeatNode);
+
+        node.addChild(stmtSequence());
+
+        TerminalNode untilNode = new TerminalNode(tok);
         match(TokenType.UNTIL);
-        return exp();
+        node.addChild(untilNode);
+
+        node.addChild(exp());
+        return node;
     }
 
-    public boolean ifStmt() throws Exception {
+    public NonTerminalNode ifStmt() throws Exception {
         // - if-stmt -> if exp then stmt-sequence [ else stmt-sequence ] end
+        NonTerminalNode node = new NonTerminalNode(NodeType.ifStmt);
+        TerminalNode ifNode = new TerminalNode(this.tok);
         match(TokenType.IF);
-        exp();
+        node.addChild(ifNode);
+        node.addChild(exp());
+        TerminalNode thenNode = new TerminalNode(this.tok);
         match(TokenType.THEN);
-        stmtSequence();
+        node.addChild(thenNode);
+        node.addChild(stmtSequence());
+
         if (this.tok.type == TokenType.ELSE) {
+            node.addChild(new TerminalNode(this.tok));
             match(TokenType.ELSE);
-            stmtSequence();
+            node.addChild(stmtSequence());
         }
-
+        TerminalNode eNode = new TerminalNode(this.tok);
         match(TokenType.END);
-        return false;
+        node.addChild(eNode);
+        return node;
     }
 
-    public boolean assignStmt() throws Exception {
+    public NonTerminalNode assignStmt() throws Exception {
         // - assign-stmt -> **identifier :=** exp
+        NonTerminalNode node = new NonTerminalNode(NodeType.assignStmt);
+
+        TerminalNode idNode = new TerminalNode(this.tok);
         match(TokenType.IDENTIFIER);
+        node.addChild(idNode);
+        TerminalNode assignNode = new TerminalNode(this.tok);
         match(TokenType.ASSINE);
-        return exp();
+        node.addChild(assignNode);
+        NonTerminalNode expNode = exp();
+        node.addChild(expNode);
+
+        return node;
     }
 
-    public boolean readStmt() throws Exception {
+    public NonTerminalNode readStmt() throws Exception {
         // - read-stmt -> **read identifier**
+        NonTerminalNode node = new NonTerminalNode(NodeType.readStmt);
+        TerminalNode readNode = new TerminalNode(this.tok);
         match(TokenType.READ);
-        return match(TokenType.IDENTIFIER);
+        node.addChild(readNode);
+        TerminalNode idNode = new TerminalNode(this.tok);
+        match(TokenType.IDENTIFIER);
+        node.addChild(idNode);
+        return node;
     }
 
-    public boolean writeStmt() throws Exception {
+    public NonTerminalNode writeStmt() throws Exception {
         // - write-stmt -> **write** exp
+        NonTerminalNode node = new NonTerminalNode(NodeType.writeStmt);
+        TerminalNode writeNode = new TerminalNode(this.tok);
         match(TokenType.WRITE);
-        return exp();
+        node.addChild(writeNode);
+        NonTerminalNode expNode = exp();
+        node.addChild(expNode);
+        return node;
     }
 
-    public boolean exp() throws Exception {
+    public NonTerminalNode exp() throws Exception {
         // - exp -> simple-exp [ comparison-op simple-exp ]
-        simpleExp();
-        while (comparisonOP()) {
-            simpleExp();
+        NonTerminalNode node = new NonTerminalNode(NodeType.exp);
+        node.addChild(simpleExp());
+        TerminalNode t = comparisonOP();
+        while (t != null) {
+            node.addChild(t);
+            node.addChild(simpleExp());
+            t = comparisonOP();
         }
-        return false;
+        return node;
     }
 
-    public boolean simpleExp() throws Exception {
+    public NonTerminalNode simpleExp() throws Exception {
         // - simple-exp -> term { addop term }
-        term();
+        NonTerminalNode node = new NonTerminalNode(NodeType.simpleExp);
+        node.addChild(term());
+        TerminalNode tNode = new TerminalNode(tok);
         while (this.tok.type == TokenType.PLUS || this.tok.type == TokenType.MINUS) {
             match(this.tok.type);
-            term();
+            node.addChild(tNode);
+            node.addChild(term());
+            tNode = new TerminalNode(tok);
         }
-        return false;
+        return node;
     }
 
-    public boolean term() throws Exception {
+    public NonTerminalNode term() throws Exception {
         // - term -> factor { mulop factor }
-        factor();
+        NonTerminalNode node = new NonTerminalNode(NodeType.term);
+        node.addChild(factor());
+        TerminalNode tNode = new TerminalNode(tok);
         while (this.tok.type == TokenType.MULOP || this.tok.type == TokenType.DIV) {
             match(this.tok.type);
-            factor();
+            node.addChild(tNode);
+            node.addChild(factor());
+            tNode = new TerminalNode(tok);
         }
-        return false;
+        return node;
     }
 
-    public boolean factor() throws Exception {
+    public NonTerminalNode factor() throws Exception {
         // - factor -> exp | number | identifier
+        NonTerminalNode node = new NonTerminalNode(NodeType.factor);
+        TerminalNode tNode = new TerminalNode(tok);
+
         switch (this.tok.type) {
             case OPENBRACKET:
                 match(TokenType.OPENBRACKET);
-                exp();
-                return match(TokenType.CLOSEDBRACKET);
+                node.addChild(tNode);
+                NonTerminalNode expNode = exp();
+                node.addChild(expNode);
+                tNode = new TerminalNode(tok);
+                match(TokenType.CLOSEDBRACKET);
+                node.addChild(tNode);
+                return node;
             case NUMBER:
-                return match(TokenType.NUMBER);
+                match(TokenType.NUMBER);
+                node.addChild(tNode);
+                return node;
             case IDENTIFIER:
-                return match(TokenType.IDENTIFIER);
+                match(TokenType.IDENTIFIER);
+                node.addChild(tNode);
+                return node;
             default:
-                return false;
+                throw new Exception("error occured expected: ( or number or identifier " + " ,got: " + tok.toString());
         }
     }
 
-    public boolean comparisonOP() throws Exception {
+    public TerminalNode comparisonOP() throws Exception {
         ArrayList<TokenType> allowedToken = new ArrayList<>(Arrays.asList(
                 TokenType.GT,
                 TokenType.GTorEQ,
                 TokenType.LT,
                 TokenType.LTorEQ,
                 TokenType.ASSINE));
+        Token t = this.tok;
         for (TokenType tt : allowedToken) {
             if (tt == this.tok.type) {
                 match(tt);
-                return true;
+                return new TerminalNode(t);
             }
         }
-        return false;
+        return null;
+        // throw new Exception("error occured expected: > or >= or < or <= or = " + "
+        // ,got: " + tok.toString());
     }
 
-    public boolean mulop() throws Exception {
+    public TerminalNode mulop() throws Exception {
+        Token t = this.tok;
         switch (this.tok.type) {
             case MULOP:
-                return match(TokenType.MULOP);
+                match(TokenType.MULOP);
+                return new TerminalNode(t);
             case DIV:
-                return match(TokenType.DIV);
-
+                match(TokenType.DIV);
+                return new TerminalNode(t);
             default:
-                return false;
+                throw new Exception("error occured expected: * or / " + " ,got: " + tok.toString());
         }
     }
 
-    public boolean addop() throws Exception {
+    public TerminalNode addop() throws Exception {
+        Token t = this.tok;
         switch (this.tok.type) {
             case PLUS:
-                return match(TokenType.PLUS);
+                match(TokenType.PLUS);
+                return new TerminalNode(t);
             case MINUS:
-                return match(TokenType.MINUS);
-
+                match(TokenType.MINUS);
+                return new TerminalNode(t);
             default:
-                return false;
+                throw new Exception("error occured expected: + or - " + " ,got: " + tok.toString());
         }
     }
 

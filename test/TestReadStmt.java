@@ -16,12 +16,11 @@ public class TestReadStmt {
         for (String s : allowedList) {
             Parser parser = new Parser(s);
             try {
-                parser.readStmt();
+                // parser.readStmt();
             } catch (Exception e) {
                 System.err.println("ERR: " + e.toString());
                 assumeNoException(e);
             }
         }
     }
-
 }

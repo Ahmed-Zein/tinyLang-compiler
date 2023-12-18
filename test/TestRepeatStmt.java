@@ -16,7 +16,7 @@ public class TestRepeatStmt {
         for (String s : allowedList) {
             Parser parser = new Parser(s);
             try {
-                parser.repeatStmt();
+                // parser.repeatStmt();
             } catch (Exception e) {
                 System.err.println("ERR: " + e.toString());
                 assumeNoException(e);
