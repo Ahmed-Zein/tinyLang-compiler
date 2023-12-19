@@ -3,6 +3,8 @@ package parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import exception.UnExceptedToken;
+import exception.UndefinedStmt;
 import lexer.Lexer;
 import parser.tree.NodeType;
 import parser.tree.NonTerminalNode;
@@ -62,8 +64,8 @@ public class Parser {
                 eNode.addChild(new TerminalNode(this.tok));
                 return eNode;
             default:
-                throw new Exception(
-                        "ERROR: undefined statement" + " ,got: " + this.tok.toString());
+                throw new UndefinedStmt(
+                        "ERROR: undefined statement" + ", got: " + this.tok.toString());
         }
     }
 
@@ -212,7 +214,8 @@ public class Parser {
                 node.addChild(tNode);
                 return node;
             default:
-                throw new Exception("error occured expected: ( or number or identifier " + " ,got: " + tok.toString());
+                throw new UnExceptedToken(
+                        "error occured expected: ( or number or identifier" + ", got: " + tok.toString());
         }
     }
 
@@ -265,12 +268,12 @@ public class Parser {
 
     private boolean match(TokenType type) throws Exception {
         if (this.tok.type == type) {
-            // +type.toString()
             System.out.println("INFO: match: " + tok.toString());
             getToken();
             return true;
         }
-        throw (new Exception("error occured expected: " + type.toString() + " ,got: " + tok.toString()));
+        System.out.println("ERROR: match expected: " + type.toString() + " ,got: " + tok.toString());
+        throw (new UnExceptedToken(this.tok, type));
     }
 
     private void getToken() {

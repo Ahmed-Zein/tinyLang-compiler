@@ -2,21 +2,21 @@
 
 ## Tiny lang EBNF
 
-- [ ] program -> stmt-sequence
-- [ ] stmt-sequence -> statement { ; statement }
-- [ ] statement -> if-stmt | repeat-stmt | assign-stmt | read-stmt | write-stmt
-- [ ] if-stmt -> **if** exp then stmt-sequence [ **else** stmt-sequence ] **end**
-- [ ] repeat-stmt -> **repeat** stmt-sequence **until** exp
-- [ ] assign-stmt -> **identifier :=** exp
-- [ ] read-stmt -> **read identifier**
-- [ ] write-stmt -> **write** exp
-- [ ] exp -> simple-exp [ comparison-op simple-exp ]
-- [ ] comparison-op -> <|=
-- [ ] simple-exp -> term { addop term }
+- [x] program -> stmt-sequence
+- [x] stmt-sequence -> statement { ; statement }
+- [x] statement -> if-stmt | repeat-stmt | assign-stmt | read-stmt | write-stmt
+- [x] if-stmt -> **if** exp then stmt-sequence [ **else** stmt-sequence ] **end**
+- [x] repeat-stmt -> **repeat** stmt-sequence **until** exp
+- [x] assign-stmt -> **identifier :=** exp
+- [x] read-stmt -> **read identifier**
+- [x] write-stmt -> **write** exp
+- [x] exp -> simple-exp [ comparison-op simple-exp ]
+- [x] comparison-op -> <|=
+- [x] simple-exp -> term { addop term }
 - [x] addop -> + | -
-- [ ] term -> factor { mulop factor }
+- [x] term -> factor { mulop factor }
 - [x] mulop -> \* | /
-- [ ] factor -> **(** exp **)** | **number** | **identifier**
+- [x] factor -> **(** exp **)** | **number** | **identifier**
 
 ## TBD:
 

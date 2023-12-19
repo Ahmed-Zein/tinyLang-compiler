@@ -17,4 +17,8 @@ public enum NodeType {
     term,
     exp,
     eof,
+
+    // err reovery
+    undefinedstmt,
+    unexpectedToken,
 }

@@ -30,4 +30,15 @@ public class Testing {
             assumeNoException(e);
         }
     }
+
+    @Test
+    public void parseTree2() {
+        String inpString = " x; x:=24;";
+        Parser parser = new Parser(inpString);
+        try {
+            parser.parse().drawTree(0);
+        } catch (Exception e) {
+            assumeNoException(e);
+        }
+    }
 }
