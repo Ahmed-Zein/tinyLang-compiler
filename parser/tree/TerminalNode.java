@@ -5,6 +5,9 @@ import token.Token;
 public class TerminalNode extends Node {
     Token tok;
 
+    public TerminalNode() {
+    }
+
     public TerminalNode(Token tok) {
         this.tok = tok;
     }

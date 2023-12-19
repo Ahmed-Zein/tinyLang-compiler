@@ -29,6 +29,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return "tokenLiteral " + this.literal + " tokenType: " + this.type;
+        return "TokenType: " + this.type + ", TokenLiteral: " + this.literal;
     }
 }

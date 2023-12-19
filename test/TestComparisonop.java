@@ -11,12 +11,12 @@ import parser.Parser;
 
 public class TestComparisonop {
     @Test
-    public void testAdd() {
+    public void comparisonOP() {
         ArrayList<String> allowedList = new ArrayList<>(Arrays.asList("<", "<=", ">=", ">", "="));
         for (String s : allowedList) {
             Parser parser = new Parser(s);
             try {
-                parser.addop();
+                parser.comparisonOP();
             } catch (Exception e) {
                 assumeNoException(e);
             }

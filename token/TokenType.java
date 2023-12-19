@@ -2,7 +2,6 @@ package token;
 
 public enum TokenType {
     EOF,
-    SYNTAX_ERROR,
     // identifire + literal
     IDENTIFIER,
     NUMBER,
@@ -33,4 +32,8 @@ public enum TokenType {
     LTorEQ,
     EQ,
     ASSINE,
+
+    // error recovery tokens
+    SYNTAX_ERROR,
+    UNEXCEPTED_TOKEN,
 }
