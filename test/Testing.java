@@ -33,7 +33,8 @@ public class Testing {
 
     @Test
     public void parseTree2() {
-        String inpString = " x; x:=24;";
+//        String inpString = " x; x:=24;";
+        String inpString = " x123; x:=24;";
         Parser parser = new Parser(inpString);
         try {
             parser.parse().drawTree(0);
@@ -41,4 +42,5 @@ public class Testing {
             assumeNoException(e);
         }
     }
+
 }

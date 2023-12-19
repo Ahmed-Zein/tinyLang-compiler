@@ -2,3 +2,5 @@
 private
 lib
 logs
+.idea
+out
