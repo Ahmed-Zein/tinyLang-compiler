@@ -18,32 +18,6 @@
 - [x] mulop -> \* | /
 - [x] factor -> **(** exp **)** | **number** | **identifier**
 
-## TBD:
-
-- [x] stmtSequence
-- [x] comparisonOp,
-- [x] repeatStmt,
-- [x] assignStmt,
-- [x] simpleExp,
-- [x] statement,
-- [x] writeStmt,
-- [x] readStmt,
-- [x] program,
-- [x] factor,
-- [x] ifStmt,
-- [x] addop,
-- [x] mulop,
-- [x] term,
-- [x] exp,
-
-## ERRs
-
-FIXME: missing producution rule causes no erroe (i.e) exp: {>}, this should not be valid
-
-## Extra
-
-- track line number to highlight the errors
-
 ```
 some text
 ├─── more text
