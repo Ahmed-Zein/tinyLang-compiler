@@ -64,9 +64,9 @@ public class Parser {
                 eNode.addChild(new TerminalNode(this.tok));
                 return eNode;
             default:
-                // return new NonTerminalNode(NodeType.undefinedstmt);
-                throw new UndefinedStmt(
-                        "ERROR: undefined statement" + ", got: " + this.tok.toString());
+                 return new NonTerminalNode(NodeType.undefinedstmt);
+//                throw new UndefinedStmt(
+//                        "ERROR: undefined statement" + ", got: " + this.tok.toString());
         }
     }
 

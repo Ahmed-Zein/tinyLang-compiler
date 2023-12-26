@@ -21,21 +21,28 @@ public class NonTerminalNode extends Node {
     }
 
     @Override
-    public void drawTree(int idnt) {
-        System.out.print(type);
+    public String drawTree(int indent) {
+        StringBuilder tree = new StringBuilder(type.toString());
+//        System.out.print(type);
         for (Node tNode : children) {
-            if (idnt > 0) {
-                System.out.print("\n│");
-                int tmp = idnt;
+            if (indent > 0) {
+                tree.append("\n│");
+//                System.out.print("\n│");
+                int tmp = indent;
                 while (tmp > 0) {
-                    System.out.print("    ");
+                    tree.append("    ");
+//                    System.out.print("    ");
                     tmp--;
                 }
-                System.out.print("├───");
+//                System.out.print("├───");
+                tree.append("├───");
             } else {
-                System.out.print("\n├───");
+//                System.out.print("\n├───");
+                tree.append("\n├───");
             }
-            tNode.drawTree(idnt + 1);
+//            tNode.drawTree(indent + 1);
+            tree.append(tNode.drawTree(indent + 1));
         }
+        return tree.toString();
     }
 }

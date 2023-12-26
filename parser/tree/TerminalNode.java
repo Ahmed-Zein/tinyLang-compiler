@@ -17,7 +17,8 @@ public class TerminalNode extends Node {
     }
 
     @Override
-    public void drawTree(int depth) {
-        System.out.print(this.tok.toString());
+    public String drawTree(int depth) {
+        return this.tok.toString();
+//        System.out.print(this.tok.toString());
     }
 }
