@@ -27,6 +27,7 @@ public class LandingScene extends Application {
         textArea.setWrapText(true);
         VBox.setVgrow(textArea, Priority.ALWAYS);
         HBox.setHgrow(textArea, Priority.ALWAYS);
+        textArea.autosize();
 
         VBox leftVBox = new VBox(10);
         leftVBox.setPadding(new Insets(10));
@@ -35,6 +36,7 @@ public class LandingScene extends Application {
         VBox rightVBox = new VBox(10);
         rightVBox.setPadding(new Insets(10));
 
+        HBox.setHgrow(leftVBox, Priority.ALWAYS);
         // Load button
         Button loadButton = new Button("Load Text File");
         loadButton.setOnAction(e -> loadTextFromFile());
