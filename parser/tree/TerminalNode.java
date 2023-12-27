@@ -3,7 +3,7 @@ package parser.tree;
 import token.Token;
 
 public class TerminalNode extends Node {
-    Token tok;
+   public Token tok;
 
     public TerminalNode() {
     }
