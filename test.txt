@@ -7,39 +7,3 @@ end
 unitl#
 read
 write /*-+09090
-
-    public static void drawGraph2(Pane pane, Node node, double x, double y) {
-        // Create a rectangle to enclose the node
-        Rectangle rectangle = new Rectangle(100, 40); // Adjust the width and height as needed
-        rectangle.setLayoutX(x);
-        rectangle.setLayoutY(y);
-        rectangle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
-        pane.getChildren().add(rectangle);
-
-        // Draw the current node's text within the rectangle
-        Label label = new Label(node.toString());
-        label.setMaxWidth(rectangle.getWidth() - 10); // Adjust the maximum width to prevent overflow
-        label.setWrapText(true);
-        label.setAlignment(Pos.CENTER);
-        label.setLayoutX(x + 5); // Adjust the label's layout within the rectangle
-        label.setLayoutY(y + 5); // Adjust the label's layout within the rectangle
-        pane.getChildren().add(label);
-
-        // Draw lines to connect children for non-terminal nodes
-        if (node instanceof NonTerminalNode nonTerminalNode) {
-            if (!nonTerminalNode.children.isEmpty()) {
-                double childX = x - 50;
-                double childY = y + 70; // Adjust the vertical spacing between nodes
-
-                for (Node child : nonTerminalNode.children) {
-                    Line line = new Line(x + 50, y + 40, childX + 50, childY); // Adjust line endpoints
-                    pane.getChildren().add(line);
-                    drawGraph2(pane, child, childX, childY);
-
-                    // Adjust the position for the next child
-                    childX += 150;
-                }
-            }
-        }
-    }

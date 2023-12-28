@@ -25,7 +25,8 @@ public class Testing {
         String inpString = "if 5>9 then write 5 else write 9; read x; write 88; repeat write 88+1 until  10 end;  ";
         Parser parser = new Parser(inpString);
         try {
-            parser.parse().drawTree(0);
+//            parser.parse().drawTree(0);
+            System.out.println(parser.parse().drawTree(0));
         } catch (Exception e) {
             assumeNoException(e);
         }

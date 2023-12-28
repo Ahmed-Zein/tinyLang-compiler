@@ -19,17 +19,18 @@ public class GraphDrawer {
     public static double DEFAULT_NODE_WIDTH = 90;
 
     public void drawGraph(Pane pane, Node node, double x, double y, int indent) {
+        System.out.println(node.toString());
         drawNodeShape(pane, node, x, y);
         if (node instanceof NonTerminalNode) {
             if (!((NonTerminalNode) node).children.isEmpty()) {
-                double childX = x + (indent > 0 ? DEFAULT_NODE_WIDTH * 1.8 : 0);
-                double childY = y;
+                double childX = x + 50 +(indent >= 0 ? DEFAULT_NODE_WIDTH * 1.5 : 0);
+                double childY = y+50;
                 int tmp = 1;
                 for (Node child : ((NonTerminalNode) node).children) {
                     drawChildLine(pane, x+DEFAULT_NODE_WIDTH/2, y-DEFAULT_NODE_HEIGHT/2 , childX, childY);
                     drawGraph(pane, child, childX, childY, indent + 1);
-                    childY += DEFAULT_NODE_HEIGHT * tmp * 2.3  + new Random().nextInt(100);
-                    tmp = (child instanceof NonTerminalNode) ? ((NonTerminalNode) (child)).children.size() : 1;
+                    childY += DEFAULT_NODE_HEIGHT * tmp * 2.3  ;
+                    tmp = (child instanceof NonTerminalNode) ? ((NonTerminalNode) (child)).children.size()+1 : 1;
                 }
             }
         }
@@ -83,7 +84,8 @@ class GraphRectangularNode extends GraphNode {
 
     private Rectangle createNodeRectangle() {
         Rectangle rectangle = new Rectangle(GraphDrawer.DEFAULT_NODE_WIDTH, GraphDrawer.DEFAULT_NODE_HEIGHT);
-        rectangle.setFill(Color.SNOW);
+//        rectangle.setFill(Color.SNOW);
+        rectangle.setFill(Color.TRANSPARENT);
         rectangle.setStroke(Color.BLACK);
         return rectangle;
     }
@@ -114,7 +116,7 @@ class GraphCircularNode extends GraphNode {
     private Circle createCircle() {
         Circle circle = new Circle(GraphDrawer.DEFAULT_NODE_WIDTH / 3);
         circle.setFill(Color.SNOW);
-//        circle.setFill(Color.TRANSPARENT);
+        circle.setFill(Color.TRANSPARENT);
         circle.setStroke(Color.BLACK);
         return circle;
     }

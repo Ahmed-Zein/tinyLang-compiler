@@ -29,6 +29,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return this.type.toString().toUpperCase() + "\n(" + this.literal + ")";
+//        return this.type.toString().toUpperCase() + "\n(" + this.literal + ")";
+        return this.type.toString().toUpperCase() + "(" + this.literal + ")";
     }
 }

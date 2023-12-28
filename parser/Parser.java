@@ -27,7 +27,6 @@ public class Parser {
     }
 
     public NonTerminalNode program() throws Exception {
-        // - program -> stmt-sequence
         NonTerminalNode node = new NonTerminalNode(NodeType.program);
         node.addChild(stmtSequence());
         match(TokenType.EOF);
@@ -239,8 +238,10 @@ public class Parser {
             getToken();
             return tn;
         }
-        System.out.println("ERROR: match expected: " + type.toString() + " ,got: " + tok.toString());
-        return new TerminalNode(new Token(TokenType.UNEXCEPTED_TOKEN, "expectd: " + type.toString()));
+//        System.out.println("ERROR: match expected: " + type.toString() + " ,got: " + tok.toString());
+        TerminalNode t= new TerminalNode(new Token(TokenType.UNEXCEPTED_TOKEN, "expectd: " + type.toString()));
+        getToken();
+        return  t;
         // throw (new UnExceptedToken(this.tok, type));
     }
 

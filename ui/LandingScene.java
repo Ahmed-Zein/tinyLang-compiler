@@ -10,13 +10,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lexer.Lexer;
 import parser.Parser;
 import parser.tree.NonTerminalNode;
+import token.Token;
+import token.TokenType;
 import ui.graph.GraphDrawer;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+
+import static org.junit.Assume.assumeNoException;
 
 public class LandingScene extends Application {
     private TextArea textArea;
@@ -27,7 +32,7 @@ public class LandingScene extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Text Editor");
+        primaryStage.setTitle("TinyLang");
 
         textArea = new TextArea();
         textArea.setWrapText(true);
@@ -45,16 +50,43 @@ public class LandingScene extends Application {
         Button loadButton = new Button("Load Text File");
         loadButton.setOnAction(e -> loadTextFromFile());
 
-        Button printButton = new Button("parse");
-        printButton.setOnAction(e -> parse(textArea));
+        Button parsBtn = new Button("parse");
+        parsBtn.setOnAction(e -> parse(textArea));
 
-        rightVBox.getChildren().addAll(loadButton, printButton);
+        Button tokenizerBtn = new Button("generate tokens");
+        tokenizerBtn.setOnAction(e -> toknize(textArea));
+
+        rightVBox.getChildren().addAll(loadButton, parsBtn, tokenizerBtn);
 
         HBox root = new HBox(10);
         root.getChildren().addAll(leftVBox, rightVBox);
 
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
+    }
+
+    private void toknize(TextArea t) {
+        String input = t.getText();
+        if (input.isEmpty()) {
+            Label l = new Label("add text or open a file");
+            Stage s = new Stage();
+            s.setScene(new Scene(l, 200, 50));
+            s.show();
+            return;
+        }
+        Label lbl = new Label();
+        Lexer lexer = new Lexer(input);
+        Token tok = lexer.nexToken();
+        StringBuilder tokens = new StringBuilder();
+        while (tok.type != TokenType.EOF) {
+            tokens.append("Literal: ").append(tok.literal).append(", Type: ").append(tok.type).append("\n");
+            tok = lexer.nexToken();
+        }
+        lbl.setText(tokens.toString());
+        Stage s = new Stage();
+        ScrollPane sp = new ScrollPane(lbl);
+        s.setScene(new Scene(sp, 400, 600));
+        s.show();
     }
 
     private void loadTextFromFile() {
@@ -74,18 +106,18 @@ public class LandingScene extends Application {
     private void parse(TextArea t) {
         String input = t.getText();
         if (input.isEmpty()) {
-            Label  l = new Label("add text or open a file");
+            Label l = new Label("add text or open a file");
             Stage s = new Stage();
-            s.setScene(new Scene(l, 200 , 50));
+            s.setScene(new Scene(l, 200, 50));
             s.show();
 //            t.setText("ERROR: the file is empty");
             return;
         }
-        Parser parser = new Parser(input);
-        NonTerminalNode graph_root = null;
         try {
-            graph_root = parser.parse();
-//            t.setText(graph_root.drawTree(0));
+            System.out.println(input);
+            Parser p1 = new Parser(input);
+            NonTerminalNode graph_root  = p1.parse();
+
             Stage parseStage = new Stage();
             Pane graph_pane = new Pane();
             GraphDrawer gd = new GraphDrawer();
@@ -105,7 +137,6 @@ public class LandingScene extends Application {
             });
             sliders.setMinWidth(190);
             sliders.setMaxWidth(200);
-//        sliders.setPadding(new Insets(5));
             HBox container = new HBox(sp, sliders);
 
             parseStage.setScene(new Scene(container, 800, 800));
